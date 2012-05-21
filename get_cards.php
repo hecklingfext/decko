@@ -6,14 +6,7 @@ include_once 'Card.php';
 
 include_once 'simple_html_dom.php';
 
-$host = "127.0.0.1";
-$user = "root";
-$pass = "marvin17";
-$link = "";
-$result = "";
-
-$link = @mysql_connect($host, $user, $pass) or die('Could not connect: ' . mysql_error());
-@mysql_select_db('mtg') or die('Could not select database');
+include('config.php');
 
 if (isset($argv[1]))
 {
