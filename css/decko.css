@@ -1,0 +1,85 @@
+#header {
+	height: 44px;
+	background: black;
+	padding: 0;
+	margin: 0;
+}
+
+#brand {
+	float: left;
+	width: 210px;
+	padding: 0 7px 0 10px;
+	font-size: 16px;
+	color:white;
+}
+
+#sidebar {
+	border: 1px solid black;
+	padding: 0;
+	margin: 0;
+	font-size: 11px;
+	position: absolute;
+	top: 52px;
+	left: 8px;
+	width: 320px;
+	height: 100%;
+	background-color: white;
+	color: black;
+}
+
+#table {
+	margin: 75px 15px 0 345px;
+	position: absolute;
+	width: 1200;
+	height: 700;
+	float: right;
+	overflow: scroll;
+}
+
+#deckList {
+	margin: 10px 0 0 10px;
+	font-size: 16px;
+}
+
+.my_data {
+	display: none;
+}
+
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #613a3a;
+   background: -webkit-gradient(linear, left top, left bottom, from(#000000), to(#613a3a));
+   background: -webkit-linear-gradient(top, #000000, #613a3a);
+   background: -moz-linear-gradient(top, #000000, #613a3a);
+   background: -ms-linear-gradient(top, #000000, #613a3a);
+   background: -o-linear-gradient(top, #000000, #613a3a);
+   padding: 7.5px 15px;
+   -webkit-border-radius: 15px;
+   -moz-border-radius: 15px;
+   border-radius: 15px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: #cadbd9;
+   font-size: 16px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+}
+.button:hover {
+   border-top-color: #000000;
+   background: #000000;
+   color: #ccc;
+   cursor: hand;
+}
+.button:active {
+   border-top-color: #808080;
+   background: #808080;
+}
+
+img.card {
+	position: absolute;
+	width: 160;
+	height: 240;
+}
