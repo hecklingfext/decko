@@ -120,7 +120,14 @@ function getSearchType($q)
 
 function getCardResults($curr, $tokens)
 {
-	$sql_clause = "WHERE cards." . $curr->type . " LIKE '%" . $curr->q . "%' ";
+    if ($curr->q != "_")
+    {
+        $sql_clause = "WHERE cards." . $curr->type . " LIKE '%" . mysql_real_escape_string($curr->q) . "%' ";
+    }
+    else
+    {
+        $sql_clause = "WHERE 1 ";
+    }
 
 	foreach ($tokens as $key => $type)
 	{
@@ -638,10 +645,8 @@ function getComparisonString($key, $q)
 	switch($key)
 	{
 		case "format":
-			return ("set_no IN (SELECT set_id FROM formats WHERE format_no = " . $q . ")");
+			return ("set_no IN (SELECT set_no FROM formats WHERE format_no = " . $q . ")");
 			break;
-		case "type":
-		case "subtype":
 		case "text":
 		case "name":
 		case "rarity":
@@ -649,6 +654,8 @@ function getComparisonString($key, $q)
 		case "illus":
 			return ($key . " LIKE '%" . $q . "%'");
 			break;
+		case "type":
+		case "subtype":
 		case "set_no":
 		case "cmc":
 		case "power":

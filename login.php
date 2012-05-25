@@ -12,6 +12,11 @@ session_set_cookie_params(2*7*24*60*60);
 // Making the cookie live for 2 weeks
 
 session_start();
+$script = '
+	<script type="text/javascript" src="js/slide.js"></script>
+    <link rel="stylesheet" href="css/slide.css" type="text/css" media="screen" />
+	';
+$script_more = '';
 
 if($_SESSION['id'] && !isset($_COOKIE['tzRemember']) && !$_SESSION['rememberMe'])
 {
@@ -28,8 +33,13 @@ if(isset($_GET['logoff']))
 {
 	$_SESSION = array();
 	session_destroy();
-	header("Location: index.php");
+	header("Location: index.php?loggedoff");
 	exit;
+}
+
+if(isset($_GET['loggedoff']))
+{
+    $script_more .= "localStorage.clear();";
 }
 
 if($_POST['submit']=='Login')
@@ -72,9 +82,9 @@ if($_POST['submit']=='Login')
 	if($err)
 		$_SESSION['msg']['login-err'] = implode('<br />',$err);
 		// Save the error messages in the session
-
-	header("Location: index.php");
-	exit;
+    
+    header("Location: index.php");
+    exit;
 }
 else if($_POST['submit']=='Register')
 {
@@ -118,10 +128,14 @@ else if($_POST['submit']=='Register')
 
 		if(mysql_affected_rows($link)==1)
 		{
-			$sent = send_email($_POST['email'], 'Welcome, '.$_POST['signup'].'.', 'Your password is: '.$pass.'. Please change it soon.');
+            $usr_id = mysql_insert_id($link);
+            $sent = send_email($_POST['email'], 'Welcome, '.$_POST['signup'].'.', 'Your password is: '.$pass.'. Please change it soon.');
             if ($sent)
             {
-                $_SESSION['msg']['reg-success']='We sent you an email with your new password!';
+                $_SESSION['msg']['reg-success']='<h1>We sent you an email with your new password!</h1><br /><br />';
+
+                $_SESSION['usr']= $_POST['signup'];
+                $_SESSION['id'] = $usr_id;
             }
             else
             {
@@ -140,11 +154,10 @@ else if($_POST['submit']=='Register')
 	exit;
 }
 
-$script = '';
 if($_SESSION['msg'])
 {
 	// The script below shows the sliding panel on page load
-	$script = '
+	$script .= '
 	<script type="text/javascript">
 	$(function(){
 		$("div#panel").show();
@@ -153,10 +166,11 @@ if($_SESSION['msg'])
 	});
 	</script>';
 }
+
 $script .= '
-	<script type="text/javascript" src="js/slide.js"></script>
-    <link rel="stylesheet" href="css/slide.css" type="text/css" media="screen" />
-	';
+<script type="text/javascript">
+    '.$script_more.'
+</script>';
 
 function getHeader()
 {
@@ -205,13 +219,6 @@ function getHeader()
             unset($_SESSION['msg']['reg-err']);
         }
 
-
-        if($_SESSION['msg']['reg-success'])
-        {
-            $header .= "<div class='success'>".$_SESSION['msg']['reg-success']."</div>";
-            unset($_SESSION['msg']['reg-success']);
-        }
-
         $header .= "
 					<label class='grey' for='signup'>Username:</label>
 					<input class='field' type='text' name='signup' id='signup' value='' size='23' />
@@ -232,11 +239,19 @@ function getHeader()
                 <p>- or -</p>
                 <a href='?logoff'>Log off</a>
             </div>
-            <div class='left right'>
+            <div class='left right'>";
+
+        if($_SESSION['msg']['reg-success'])
+        {
+            $header .= "<div class='success'>".$_SESSION['msg']['reg-success']."</div>";
+            unset($_SESSION['msg']['reg-success']);
+        }
+
+        $header .= "
             </div>
 			<div class='left right'>			
-					<h1>Recently added deck lists</h1>
-                    " . getRecentDecks() . "
+                <h1>Recently added deck lists</h1>
+                <div id='recent_deck_lists'> </div>
 			</div>";
     }
 

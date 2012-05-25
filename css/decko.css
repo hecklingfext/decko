@@ -37,17 +37,32 @@
 	top: 52px;
 	left: 8px;
 	width: 320px;
-	height: 100%;
 	background-color: white;
 	color: black;
 }
-
-#deck_name {
+#table_header {
 	display:        inline-block;
     float:          top;
     padding-left:   350px;
     padding-top:    20px;
+    width:          1000PX;
     font-size:      24px;
+}
+
+#sort_select {
+    width:  200px;
+}
+
+#sort_select_label {
+    font-size:  16px;
+}
+
+.t_right {
+    float:  right;
+}
+
+#deck_name {
+    float:  left;
 }
 
 #table {
@@ -56,7 +71,7 @@
 	width: 1200;
 	height: 700;
 	float: right;
-	overflow: scroll;
+	overflow: visible;
 }
 
 #deckList {

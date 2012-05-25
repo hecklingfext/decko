@@ -36,7 +36,7 @@ class Card
         $row = mysql_fetch_assoc($result);
 
         $this->Id = intval($row['id']);
-        $this->Number = intval($row['number']);
+        $this->Number = $row['number'];
         $this->Name = $row['name'];
         $this->Set = intval($row['set_no']);
         $this->Rarity = $row['rarity'];
